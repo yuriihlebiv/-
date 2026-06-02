@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MODEUA — Інтернет-магазин одягу</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#F5F3F0;
+  --surface:#FFFFFF;
+  --dark:#1C1917;
+  --accent:#C8A97E;
+  --accent2:#8B5E3C;
+  --text:#1C1917;
+  --muted:#78716C;
+  --border:#E7E5E0;
+  --light:#FAF9F7;
+}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+
+nav{background:var(--dark);padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:68px;position:sticky;top:0;z-index:100}
+.logo{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:#fff;letter-spacing:1px}
+.logo em{color:var(--accent);font-style:normal}
+.nav-links{display:flex;gap:2.5rem;list-style:none}
+.nav-links a{text-decoration:none;color:rgba(255,255,255,0.6);font-size:13px;font-weight:500;letter-spacing:0.8px;text-transform:uppercase;transition:color .2s}
+.nav-links a:hover{color:#fff}
+.nav-right{display:flex;align-items:center;gap:1.5rem}
+.icon-btn{background:none;border:none;color:rgba(255,255,255,0.7);font-size:20px;cursor:pointer;padding:6px;transition:color .2s;position:relative}
+.icon-btn:hover{color:#fff}
+.cart-badge{position:absolute;top:0;right:0;background:var(--accent);color:#1C1917;width:17px;height:17px;border-radius:50%;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center}
+
+.hero{display:grid;grid-template-columns:1fr 1fr;min-height:500px}
+.hero-left{background:var(--dark);padding:4rem 3rem;display:flex;flex-direction:column;justify-content:center;position:relative;overflow:hidden}
+.hero-left::before{content:'';position:absolute;bottom:-60px;left:-60px;width:300px;height:300px;border-radius:50%;background:rgba(200,169,126,0.08)}
+.hero-eyebrow{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--accent);margin-bottom:1.5rem;font-weight:500}
+.hero-left h1{font-family:'Playfair Display',serif;font-size:clamp(28px,4vw,52px);font-weight:700;color:#fff;line-height:1.1;margin-bottom:1.5rem}
+.hero-left p{color:rgba(255,255,255,0.55);font-size:15px;line-height:1.8;margin-bottom:2.5rem;font-weight:300;max-width:380px}
+.hero-btns{display:flex;gap:1rem}
+.btn-gold{background:var(--accent);color:var(--dark);border:none;padding:14px 30px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;letter-spacing:1px;text-transform:uppercase;cursor:pointer;transition:background .2s}
+.btn-gold:hover{background:#d4b896}
+.btn-ghost{background:transparent;color:#fff;border:1px solid rgba(255,255,255,0.25);padding:14px 30px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;letter-spacing:0.5px;cursor:pointer;transition:border-color .2s}
+.btn-ghost:hover{border-color:rgba(255,255,255,0.6)}
+.hero-right{background:var(--accent);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:1.5rem;padding:3rem}
+.hero-tags{display:flex;gap:0.75rem;flex-wrap:wrap;justify-content:center}
+.hero-tag{background:rgba(28,25,23,0.15);color:var(--dark);padding:6px 14px;font-size:12px;font-weight:600;letter-spacing:0.5px}
+
+.strip{background:var(--dark);padding:1rem 2rem;display:flex;gap:3rem;justify-content:center;align-items:center;flex-wrap:wrap}
+.strip-item{display:flex;align-items:center;gap:8px;color:rgba(255,255,255,0.6);font-size:12px;letter-spacing:0.5px;text-transform:uppercase}
+.strip-item i{color:var(--accent);font-size:16px}
+
+.filters-bar{padding:1.5rem 2rem;background:var(--surface);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:1rem;flex-wrap:wrap}
+.filter-label{font-size:12px;font-weight:600;letter-spacing:0.8px;text-transform:uppercase;color:var(--muted);margin-right:0.5rem}
+.filter-btn{background:none;border:1px solid var(--border);padding:7px 18px;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--muted);cursor:pointer;transition:all .2s}
+.filter-btn:hover,.filter-btn.active{background:var(--dark);color:#fff;border-color:var(--dark)}
+.filter-select{border:1px solid var(--border);background:none;padding:7px 14px;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--text);cursor:pointer;margin-left:auto}
+
+.section{padding:3rem 2rem}
+.section-header{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:2rem}
+.section-title{font-family:'Playfair Display',serif;font-size:28px;font-weight:700}
+.section-link{font-size:13px;color:var(--muted);text-decoration:none;border-bottom:1px solid var(--border)}
+.products-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:2px}
+.product-card{background:var(--surface);cursor:pointer;position:relative;overflow:hidden}
+.product-card:hover .product-overlay{opacity:1}
+.product-card:hover .product-img-wrap img{transform:scale(1.06)}
+.product-img-wrap{height:300px;background:var(--light);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.product-img-wrap img{width:100%;height:100%;object-fit:cover;transition:transform .4s ease;display:block}
+.product-overlay{position:absolute;bottom:0;left:0;right:0;background:rgba(28,25,23,0.85);padding:1rem;display:flex;gap:0.5rem;opacity:0;transition:opacity .25s}
+.quick-btn{flex:1;background:var(--accent);color:var(--dark);border:none;padding:10px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:700;letter-spacing:0.5px;text-transform:uppercase;cursor:pointer;transition:background .2s}
+.quick-btn:hover{background:#d4b896}
+.wish-btn{background:rgba(255,255,255,0.1);border:none;color:#fff;width:40px;cursor:pointer;font-size:18px;transition:background .2s}
+.wish-btn:hover{background:rgba(255,255,255,0.2)}
+.product-badge{position:absolute;top:14px;left:14px;padding:4px 10px;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase}
+.badge-sale{background:#D4381C;color:#fff}
+.badge-new{background:var(--dark);color:#fff}
+.badge-hot{background:var(--accent);color:var(--dark)}
+.product-body{padding:1rem}
+.product-brand{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+.product-name{font-size:15px;font-weight:500;margin-bottom:0.5rem;line-height:1.3}
+.product-sizes{display:flex;gap:4px;margin-bottom:0.75rem}
+.size-dot{font-size:10px;color:var(--muted);border:1px solid var(--border);padding:2px 6px}
+.product-bottom{display:flex;align-items:center;justify-content:space-between}
+.price-wrap{display:flex;align-items:baseline;gap:6px}
+.price{font-size:17px;font-weight:700;color:var(--dark)}
+.price-old{font-size:13px;color:var(--muted);text-decoration:line-through}
+.add-cart-btn{background:var(--dark);color:#fff;border:none;width:36px;height:36px;display:flex;align-items:center;justify-content:center;font-size:18px;cursor:pointer;transition:background .2s}
+.add-cart-btn:hover{background:var(--accent2)}
+.add-cart-btn.added{background:var(--accent);color:var(--dark)}
+
+.lookbook{background:var(--dark);padding:4rem 2rem;text-align:center}
+.lookbook h2{font-family:'Playfair Display',serif;font-size:32px;color:#fff;margin-bottom:0.5rem}
+.lookbook p{color:rgba(255,255,255,0.5);font-size:14px;margin-bottom:2.5rem}
+.looks{display:grid;grid-template-columns:repeat(3,1fr);gap:2px}
+.look{height:220px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:opacity .2s;position:relative;overflow:hidden}
+.look:nth-child(1){grid-row:span 2;height:auto;min-height:440px}
+.look img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.look:hover{opacity:0.85}
+.look-label{position:absolute;bottom:1rem;left:1rem;font-size:12px;color:rgba(255,255,255,0.6);letter-spacing:0.5px;text-transform:uppercase}
+
+.size-section{background:var(--surface);padding:2.5rem 2rem;display:flex;align-items:center;justify-content:space-between;border-top:1px solid var(--border)}
+.size-text h3{font-family:'Playfair Display',serif;font-size:20px;margin-bottom:0.25rem}
+.size-text p{color:var(--muted);font-size:14px}
+.size-guide-btn{background:none;border:1.5px solid var(--dark);padding:12px 28px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;letter-spacing:0.5px;cursor:pointer;transition:all .2s}
+.size-guide-btn:hover{background:var(--dark);color:#fff}
+
+.newsletter{background:var(--accent);padding:3.5rem 2rem;text-align:center}
+.newsletter h2{font-family:'Playfair Display',serif;font-size:26px;color:var(--dark);margin-bottom:0.5rem}
+.newsletter p{color:rgba(28,25,23,0.65);font-size:14px;margin-bottom:2rem}
+.nl-form{display:flex;max-width:460px;margin:0 auto}
+.nl-input{flex:1;border:none;padding:14px 20px;font-family:'DM Sans',sans-serif;font-size:14px;outline:none}
+.nl-btn{background:var(--dark);color:#fff;border:none;padding:14px 24px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;letter-spacing:0.5px;text-transform:uppercase;cursor:pointer}
+
+footer{background:#111;color:rgba(255,255,255,0.4);padding:2rem;text-align:center;font-size:12px;letter-spacing:0.5px}
+footer span{color:var(--accent)}
+
+.toast{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%) translateY(80px);background:var(--dark);color:#fff;padding:12px 24px;font-size:13px;font-weight:500;letter-spacing:0.3px;opacity:0;transition:all .3s;z-index:999}
+.toast.show{transform:translateX(-50%) translateY(0);opacity:1}
+
+.cart-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:200;display:none}
+.cart-overlay.open{display:block}
+.cart-panel{position:fixed;top:0;right:-420px;width:400px;height:100%;background:#fff;z-index:201;transition:right .35s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column}
+.cart-panel.open{right:0}
+.cart-head{padding:1.5rem 2rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:var(--dark)}
+.cart-head h2{font-family:'Playfair Display',serif;font-size:18px;color:#fff}
+.cart-close{background:none;border:none;color:rgba(255,255,255,0.6);font-size:22px;cursor:pointer;padding:4px}
+.cart-body{flex:1;overflow-y:auto;padding:1.5rem 2rem}
+.cart-item{display:flex;gap:1rem;padding:1rem 0;border-bottom:1px solid var(--border)}
+.ci-img{width:70px;height:80px;background:var(--light);display:flex;align-items:center;justify-content:center;font-size:36px;flex-shrink:0}
+.ci-info{flex:1}
+.ci-brand{font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--muted)}
+.ci-name{font-size:14px;font-weight:500;margin:2px 0 4px}
+.ci-size{font-size:12px;color:var(--muted)}
+.ci-bottom{display:flex;align-items:center;justify-content:space-between;margin-top:8px}
+.ci-price{font-weight:700;font-size:15px}
+.ci-remove{background:none;border:none;color:var(--muted);cursor:pointer;font-size:16px;padding:2px}
+.qty-ctrl{display:flex;align-items:center;gap:8px}
+.qty-btn{background:none;border:1px solid var(--border);width:26px;height:26px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:16px;color:var(--text)}
+.qty-val{font-size:14px;font-weight:500;min-width:16px;text-align:center}
+.cart-empty-state{text-align:center;padding:4rem 0;color:var(--muted)}
+.cart-footer{padding:1.5rem 2rem;border-top:1px solid var(--border)}
+.total-row{display:flex;justify-content:space-between;font-size:14px;margin-bottom:0.5rem;color:var(--muted)}
+.total-main{display:flex;justify-content:space-between;font-family:'Playfair Display',serif;font-size:20px;font-weight:700;margin:1rem 0}
+.checkout-btn{width:100%;background:var(--dark);color:#fff;border:none;padding:16px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:700;letter-spacing:1px;text-transform:uppercase;cursor:pointer;transition:background .2s}
+.checkout-btn:hover{background:var(--accent2)}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">MODE<em>UA</em></div>
+  <ul class="nav-links">
+    <li><a href="#">Жінкам</a></li>
+    <li><a href="#">Чоловікам</a></li>
+    <li><a href="#">Дітям</a></li>
+    <li><a href="#">Колекції</a></li>
+    <li><a href="#">Акції</a></li>
+  </ul>
+  <div class="nav-right">
+    <button class="icon-btn" aria-label="Пошук"><i class="ti ti-search"></i></button>
+    <button class="icon-btn" aria-label="Обране"><i class="ti ti-heart"></i></button>
+    <button class="icon-btn" onclick="openCart()" aria-label="Кошик">
+      <i class="ti ti-shopping-bag"></i>
+      <span class="cart-badge" id="cart-count">0</span>
+    </button>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-left">
+    <div class="hero-eyebrow">Колекція весна–літо 2025</div>
+    <h1>Стиль, що говорить за вас</h1>
+    <p>Вишуканий одяг українських і світових брендів. Нові надходження щотижня. Безкоштовна доставка від 1500₴.</p>
+    <div class="hero-btns">
+      <button class="btn-gold">Переглянути колекцію</button>
+      <button class="btn-ghost">Новинки</button>
+    </div>
+  </div>
+  <div class="hero-right" style="padding:0;position:relative;overflow:hidden">
+    <img src="https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=800&q=85" alt="Fashion model" style="width:100%;height:100%;object-fit:cover;display:block">
+    <div style="position:absolute;bottom:2rem;left:2rem;display:flex;gap:0.75rem;flex-wrap:wrap">
+      <span class="hero-tag">Плаття</span>
+      <span class="hero-tag">Піджаки</span>
+      <span class="hero-tag">Джинси</span>
+      <span class="hero-tag">Взуття</span>
+    </div>
+  </div>
+</div>
+
+<div class="strip">
+  <div class="strip-item"><i class="ti ti-truck"></i> Безкоштовна доставка від 1500₴</div>
+  <div class="strip-item"><i class="ti ti-refresh"></i> Повернення протягом 30 днів</div>
+  <div class="strip-item"><i class="ti ti-shield-check"></i> Оригінальний товар</div>
+  <div class="strip-item"><i class="ti ti-credit-card"></i> Оплата частинами</div>
+</div>
+
+<div class="filters-bar">
+  <span class="filter-label">Фільтр:</span>
+  <button class="filter-btn active" onclick="filterProducts('all',this)">Усе</button>
+  <button class="filter-btn" onclick="filterProducts('women',this)">Жіноче</button>
+  <button class="filter-btn" onclick="filterProducts('men',this)">Чоловіче</button>
+  <button class="filter-btn" onclick="filterProducts('sale',this)">Знижки</button>
+  <select class="filter-select" onchange="sortProducts(this.value)">
+    <option value="">Сортування</option>
+    <option value="price-asc">Ціна: від низької</option>
+    <option value="price-desc">Ціна: від високої</option>
+    <option value="new">Новинки</option>
+  </select>
+</div>
+
+<div class="section">
+  <div class="section-header">
+    <div class="section-title">Актуальні товари</div>
+    <a class="section-link" href="#">Весь каталог</a>
+  </div>
+  <div class="products-grid" id="products-grid"></div>
+</div>
+
+<div class="lookbook">
+  <h2>Образи сезону</h2>
+  <p>Натхнення для щоденного стилю</p>
+  <div class="looks">
+    <div class="look" style="background:none;padding:0"><img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=600&q=80" alt="Casual look" style="width:100%;height:100%;object-fit:cover"><span class="look-label">Casual</span></div>
+    <div class="look" style="background:none;padding:0"><img src="https://images.unsplash.com/photo-1594938298603-c8148c4b984c?w=600&q=80" alt="Office look" style="width:100%;height:100%;object-fit:cover"><span class="look-label">Office</span></div>
+    <div class="look" style="background:none;padding:0"><img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&q=80" alt="Summer look" style="width:100%;height:100%;object-fit:cover"><span class="look-label">Summer</span></div>
+    <div class="look" style="background:none;padding:0"><img src="https://images.unsplash.com/photo-1552374196-1ab2a1c593e8?w=600&q=80" alt="Formal look" style="width:100%;height:100%;object-fit:cover"><span class="look-label">Formal</span></div>
+    <div class="look" style="background:none;padding:0"><img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?w=600&q=80" alt="Street look" style="width:100%;height:100%;object-fit:cover"><span class="look-label">Street</span></div>
+  </div>
+</div>
+
+<div class="size-section">
+  <div class="size-text">
+    <h3>Не впевнені з розміром?</h3>
+    <p>Скористайтесь нашим детальним гідом по розмірах — одяг сяде ідеально.</p>
+  </div>
+  <button class="size-guide-btn">Таблиця розмірів</button>
+</div>
+
+<div class="newsletter">
+  <h2>Будьте в тренді</h2>
+  <p>Підпишіться та отримуйте знижку 10% на перше замовлення</p>
+  <div class="nl-form">
+    <input class="nl-input" type="email" placeholder="Ваш email..." />
+    <button class="nl-btn">Підписатись</button>
+  </div>
+</div>
+
+<footer>
+  © 2026 <span>MODEUA</span> · Інтернет-магазин одягу · Зроблено в Україні
+</footer>
+
+<div class="toast" id="toast"></div>
+
+<div class="cart-overlay" id="cart-overlay" onclick="closeCart()"></div>
+<div class="cart-panel" id="cart-panel">
+  <div class="cart-head">
+    <h2>Кошик</h2>
+    <button class="cart-close" onclick="closeCart()"><i class="ti ti-x"></i></button>
+  </div>
+  <div class="cart-body" id="cart-body"></div>
+  <div class="cart-footer" id="cart-footer" style="display:none">
+    <div class="total-row"><span>Підсумок</span><span id="subtotal-val"></span></div>
+    <div class="total-row"><span>Доставка</span><span style="color:#2B5C3F">Безкоштовно</span></div>
+    <div class="total-main"><span>Разом</span><span id="total-val"></span></div>
+    <button class="checkout-btn">Оформити замовлення</button>
+  </div>
+</div>
+
+<script>
+const products=[
+  {id:1,photo:'https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=600&q=80',name:'Сукня міді Flow',brand:'Ukr Design',cat:'women',price:1890,old:2490,sizes:['XS','S','M','L'],badge:'sale',new:false},
+  {id:2,photo:'https://images.unsplash.com/photo-1539109136881-3be0616acf4b?w=600&q=80',name:'Пальто оверсайз',brand:'Atelier K',cat:'women',price:3450,old:null,sizes:['S','M','L','XL'],badge:'new',new:true},
+  {id:3,photo:'https://images.unsplash.com/photo-1603252109303-2751441dd157?w=600&q=80',name:'Сорочка Oxford',brand:'MenStyle',cat:'men',price:890,old:1190,sizes:['M','L','XL','XXL'],badge:'sale',new:false},
+  {id:4,photo:'https://images.unsplash.com/photo-1542272604-787c3835535d?w=600&q=80',name:'Джинси Slim Fit',brand:'DenimUA',cat:'men',price:1290,old:null,sizes:['28','30','32','34'],badge:null,new:true},
+  {id:5,photo:'https://images.unsplash.com/photo-1520903920243-00d872a2d1c9?w=600&q=80',name:'Шарф кашемір',brand:'Soft Label',cat:'women',price:650,old:950,sizes:['ONE'],badge:'hot',new:false},
+  {id:6,photo:'https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=600&q=80',name:'Лофери замшеві',brand:'Step UA',cat:'women',price:2100,old:null,sizes:['36','37','38','39','40'],badge:'new',new:true},
+  {id:7,photo:'https://images.unsplash.com/photo-1556821840-3a63f15732ce?w=600&q=80',name:'Светр оверсайз',brand:'MenStyle',cat:'men',price:980,old:1350,sizes:['S','M','L'],badge:'sale',new:false},
+  {id:8,photo:'https://images.unsplash.com/photo-1588117305388-c2631a279f82?w=600&q=80',name:'Блейзер класик',brand:'StyleUA',cat:'women',price:2850,old:null,sizes:['XS','S','M','L'],badge:null,new:true},
+];
+
+let cart={};
+let currentFilter='all';
+let currentSort='';
+
+function renderProducts(){
+  let list=[...products];
+  if(currentFilter==='women') list=list.filter(p=>p.cat==='women');
+  else if(currentFilter==='men') list=list.filter(p=>p.cat==='men');
+  else if(currentFilter==='sale') list=list.filter(p=>p.old);
+  if(currentSort==='price-asc') list.sort((a,b)=>a.price-b.price);
+  else if(currentSort==='price-desc') list.sort((a,b)=>b.price-a.price);
+  else if(currentSort==='new') list.sort((a,b)=>b.new-a.new);
+  const grid=document.getElementById('products-grid');
+  grid.innerHTML=list.map(p=>{
+    const inCart=cart[p.id]&&cart[p.id].qty>0;
+    return `<div class="product-card">
+      <div class="product-img-wrap">
+        <img src="${p.photo}" alt="${p.name}" loading="lazy">
+        ${p.badge?`<div class="product-badge ${p.badge==='sale'?'badge-sale':p.badge==='new'?'badge-new':'badge-hot'}">${p.badge==='sale'?'SALE':p.badge==='new'?'NEW':'ХІТ'}</div>`:''}
+        <div class="product-overlay">
+          <button class="quick-btn" onclick="addToCart(${p.id})">У кошик</button>
+          <button class="wish-btn" onclick="wishlist(${p.id},this)"><i class="ti ti-heart"></i></button>
+        </div>
+      </div>
+      <div class="product-body">
+        <div class="product-brand">${p.brand}</div>
+        <div class="product-name">${p.name}</div>
+        <div class="product-sizes">${p.sizes.map(s=>`<span class="size-dot">${s}</span>`).join('')}</div>
+        <div class="product-bottom">
+          <div class="price-wrap">
+            <span class="price">${p.price.toLocaleString('uk-UA')}₴</span>
+            ${p.old?`<span class="price-old">${p.old.toLocaleString('uk-UA')}₴</span>`:''}
+          </div>
+          <button class="add-cart-btn ${inCart?'added':''}" id="btn-${p.id}" onclick="addToCart(${p.id})">
+            <i class="ti ti-${inCart?'check':'shopping-bag'}"></i>
+          </button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function filterProducts(f,el){
+  currentFilter=f;
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+  el.classList.add('active');
+  renderProducts();
+}
+
+function sortProducts(v){
+  currentSort=v;
+  renderProducts();
+}
+
+function addToCart(id){
+  const p=products.find(x=>x.id===id);
+  if(!p) return;
+  if(!cart[id]) cart[id]={product:p,qty:0};
+  cart[id].qty++;
+  updateCartCount();
+  renderProducts();
+  showToast(`+ ${p.name} додано до кошика`);
+}
+
+function removeFromCart(id){
+  delete cart[id];
+  updateCartCount();
+  renderCartPanel();
+  renderProducts();
+}
+
+function changeQty(id,delta){
+  if(!cart[id]) return;
+  cart[id].qty+=delta;
+  if(cart[id].qty<=0) delete cart[id];
+  updateCartCount();
+  renderCartPanel();
+  renderProducts();
+}
+
+function wishlist(id,btn){
+  const icon=btn.querySelector('i');
+  if(btn.classList.contains('wi-active')){
+    icon.style.color='';
+    btn.classList.remove('wi-active');
+  } else {
+    icon.style.color='#E74C3C';
+    btn.classList.add('wi-active');
+    showToast('Додано до обраного');
+  }
+}
+
+function updateCartCount(){
+  const total=Object.values(cart).reduce((a,v)=>a+v.qty,0);
+  document.getElementById('cart-count').textContent=total;
+}
+
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2200);
+}
+
+function openCart(){
+  renderCartPanel();
+  document.getElementById('cart-panel').classList.add('open');
+  document.getElementById('cart-overlay').classList.add('open');
+}
+
+function closeCart(){
+  document.getElementById('cart-panel').classList.remove('open');
+  document.getElementById('cart-overlay').classList.remove('open');
+}
+
+function renderCartPanel(){
+  const body=document.getElementById('cart-body');
+  const footer=document.getElementById('cart-footer');
+  const ids=Object.keys(cart);
+  if(!ids.length){
+    body.innerHTML=`<div class="cart-empty-state"><i class="ti ti-shopping-bag" style="font-size:56px;margin-bottom:1rem;display:block;color:var(--border)"></i><p>Кошик порожній</p><p style="font-size:13px;margin-top:0.5rem">Додайте товари, щоб оформити замовлення</p></div>`;
+    footer.style.display='none';
+    return;
+  }
+  let sub=0;
+  body.innerHTML=ids.map(id=>{
+    const {product:p,qty}=cart[id];
+    const line=p.price*qty;
+    sub+=line;
+    return `<div class="cart-item">
+      <div class="ci-img"><img src="${p.photo}" alt="${p.name}" style="width:100%;height:100%;object-fit:cover;display:block"></div>
+      <div class="ci-info">
+        <div class="ci-brand">${p.brand}</div>
+        <div class="ci-name">${p.name}</div>
+        <div class="ci-size">Розмір: ${p.sizes[0]}</div>
+        <div class="ci-bottom">
+          <div class="qty-ctrl">
+            <button class="qty-btn" onclick="changeQty(${id},-1)">−</button>
+            <span class="qty-val">${qty}</span>
+            <button class="qty-btn" onclick="changeQty(${id},1)">+</button>
+          </div>
+          <div class="ci-price">${line.toLocaleString('uk-UA')}₴</div>
+          <button class="ci-remove" onclick="removeFromCart(${id})"><i class="ti ti-trash"></i></button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+  document.getElementById('subtotal-val').textContent=sub.toLocaleString('uk-UA')+'₴';
+  document.getElementById('total-val').textContent=sub.toLocaleString('uk-UA')+'₴';
+  footer.style.display='block';
+}
+
+renderProducts();
+</script>
+</body>
+</html>
